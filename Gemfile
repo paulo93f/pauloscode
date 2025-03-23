@@ -66,3 +66,6 @@ end
 
 # Para procesar Markdown
 gem 'redcarpet'
+
+# Para resaltado de sintaxis
+gem 'rouge'
