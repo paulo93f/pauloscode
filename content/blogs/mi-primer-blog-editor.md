@@ -1,8 +1,9 @@
 ---
+---
 title: Mi Primer Blog
 created_at: '2025-03-23T10:00:00Z'
-updated_at: '2025-03-23T10:00:00Z'
-slug: mi-primer-blog
+updated_at: '2025-03-23T17:14:14Z'
+slug: mi-primer-blog-editor
 ---
 
 # Mi Primer Blog con Markdown
@@ -31,5 +32,9 @@ En futuras actualizaciones, añadiremos soporte para:
 4. Y mucho más...
 
 > Este es un bloque de cita que puede ser útil para destacar información importante.
+
+Y ahora cargaremos una imagen: 
+
+![Imagen de prueba](https://w.wallhaven.cc/full/1p/wallhaven-1p73gw.png)
 
 ¡Gracias por leer!

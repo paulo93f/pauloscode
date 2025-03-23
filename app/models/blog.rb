@@ -12,6 +12,7 @@ class Blog
     @created_at = attributes[:created_at] || Time.current
     @updated_at = attributes[:updated_at] || Time.current
     @slug = attributes[:slug] || @title.to_s.parameterize
+    @banner_img = attributes[:banner_img] || nil
   end
 
   def self.all
@@ -30,7 +31,8 @@ class Blog
         content: content,
         created_at: frontmatter['created_at'] ? Time.parse(frontmatter['created_at']) : File.ctime(file),
         updated_at: frontmatter['updated_at'] ? Time.parse(frontmatter['updated_at']) : File.mtime(file),
-        slug: frontmatter['slug'] || filename
+        slug: frontmatter['slug'] || filename,
+        banner_img: frontmatter['banner_img'] ? frontmatter['banner_img'] : nil,
       )
     end
   end
@@ -92,4 +94,19 @@ class CustomRenderer < Redcarpet::Render::HTML
     # Añadimos clases para estilizar mejor
     "<div class='code-block'><pre class='highlight'><code class='language-#{language}'>#{formatter.format(lexer.lex(code))}</code></pre></div>"
   end
+
+  # Sobreescribimos el método links
+  def link(link, title, content)
+    "<a href='#{link}' class='text-blue-600 hover:text-blue-800 underline font-inter'>#{content}</a>"
+  end
+
+  def image(link, title, alt_text)
+    caption = alt_text ? "<figcaption class='text-center text-gray-600 mt-2 font-inter text-sm'>#{alt_text}</figcaption>" : ""
+
+    "<figure class='my-4 flex flex-col items-center'>
+      <img src='#{link}' alt='#{alt_text}' class='max-w-full rounded-sm' />
+      #{caption}
+    </figure>"
+  end
+
 end
