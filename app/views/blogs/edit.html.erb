@@ -1,0 +1,62 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Editar Blog</h1>
+    <p class="text-gray-500 mt-2">Actualiza tu contenido usando Markdown</p>
+  </div>
+
+  <%= form_with scope: :blog, url: blog_path(@blog.slug), method: :patch, class: "space-y-6", local: true do |f| %>
+    <% if flash[:alert] %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :title, "Título", class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= f.text_field :title, value: @blog.title, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :slug, "Slug (URL)", class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= f.text_field :slug, value: @blog.slug, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+        <p class="text-xs text-gray-500 mt-1">Cambiar el slug modificará la URL del blog</p>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :content, "Contenido", class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= f.text_area :content, id: "markdown-editor", value: @blog.content, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows: 15 %>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <%= link_to "Cancelar", blog_path(@blog.slug), class: "mr-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <%= f.submit "Actualizar Blog", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var simplemde = new SimpleMDE({
+      element: document.getElementById("markdown-editor"),
+      spellChecker: false,
+      autosave: {
+        enabled: true,
+        uniqueId: "edit-blog-<%= @blog.slug %>",
+        delay: 1000
+      },
+      toolbar: [
+        "bold", "italic", "heading", "|",
+        "quote", "unordered-list", "ordered-list", "|",
+        "link", "image", "code", "table", "|",
+        "preview", "side-by-side", "fullscreen", "|",
+        "guide"
+      ]
+    });
+  });
+</script>
