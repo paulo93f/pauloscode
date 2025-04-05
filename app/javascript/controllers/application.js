@@ -6,4 +6,9 @@ const application = Application.start()
 application.debug = false
 window.Stimulus   = application
 
+import { MarksmithController, ListContinuationController } from '@avo-hq/marksmith'
+
+application.register('marksmith', MarksmithController)
+application.register('list-continuation', ListContinuationController)
+
 export { application }
