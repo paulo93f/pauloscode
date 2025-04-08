@@ -2,11 +2,12 @@
 ---
 title: Mi Primer Blog
 created_at: '2025-03-23T10:00:00Z'
-updated_at: '2025-04-08T17:29:54Z'
+updated_at: '2025-04-08T18:30:28Z'
 slug: mi-primer-blog-editor
+image: https://w.wallhaven.cc/full/1p/wallhaven-1p73gw.png
 ---
 
-# Mi Primer Blog con Markdown 1
+# Mi Primer Blog con Markdown
 
 ¡Bienvenido a mi primer blog! Este contenido está escrito en Markdown y se renderiza dinámicamente.
 

@@ -3,7 +3,7 @@ require 'rouge'
 require 'rouge/plugins/redcarpet'
 
 class Blog
-  attr_reader :id, :title, :content, :created_at, :updated_at, :slug
+  attr_reader :id, :title, :content, :created_at, :updated_at, :slug, :image
 
   def initialize(attributes = {})
     @id = attributes[:id]
@@ -12,7 +12,7 @@ class Blog
     @created_at = attributes[:created_at] || Time.current
     @updated_at = attributes[:updated_at] || Time.current
     @slug = attributes[:slug] || @title.to_s.parameterize
-    @banner_img = attributes[:banner_img] || nil
+    @image = attributes[:image] || nil
   end
 
   def self.all
@@ -32,7 +32,7 @@ class Blog
         created_at: frontmatter['created_at'] ? Time.parse(frontmatter['created_at']) : File.ctime(file),
         updated_at: frontmatter['updated_at'] ? Time.parse(frontmatter['updated_at']) : File.mtime(file),
         slug: frontmatter['slug'] || filename,
-        banner_img: frontmatter['banner_img'] ? frontmatter['banner_img'] : nil,
+        image: frontmatter['image'] ? frontmatter['image'] : nil,
       )
     end
   end

@@ -38,6 +38,14 @@
         </div>
 
         <div>
+          <%= f.label :image, "Imagen de portada", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_field :image, value: @blog.image, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+            <p class="mt-2 text-sm text-gray-500">URL de la imagen de portada que se mostrará en la vista previa del blog.</p>
+          </div>
+        </div>
+
+        <div>
           <%= f.label :content, "Contenido", class: "block text-sm font-medium text-gray-700" %>
           <div class="mt-1">
             <div id="editor-loading" class="flex items-center justify-center py-8">

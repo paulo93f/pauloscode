@@ -29,7 +29,8 @@ class BlogsController < ApplicationController
       'title' => title,
       'created_at' => created_at,
       'updated_at' => created_at,
-      'slug' => slug
+      'slug' => slug,
+      'image' => params[:blog][:image]
     }
 
     # Creamos el contenido del archivo
@@ -72,7 +73,8 @@ class BlogsController < ApplicationController
       'title' => title,
       'created_at' => @blog.created_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
       'updated_at' => Time.current.strftime('%Y-%m-%dT%H:%M:%SZ'),
-      'slug' => slug
+      'slug' => slug,
+      'image' => params[:blog][:image]
     }
 
     # Creamos el contenido del archivo
