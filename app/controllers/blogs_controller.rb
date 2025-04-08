@@ -20,9 +20,26 @@ class BlogsController < ApplicationController
   def create
     title = params[:blog][:title].presence || "Sin título"
     content = params[:blog][:content]
-    slug = params[:blog][:slug].presence || title.parameterize
+    slug = title.parameterize
 
     created_at = Time.current.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    # Handle image upload
+    image_path = nil
+    if params[:blog][:image].present?
+      image = params[:blog][:image]
+      if image.respond_to?(:original_filename)
+        filename = "#{slug}-#{Time.current.to_i}#{File.extname(image.original_filename)}"
+        image_path = "/images/blogs/#{filename}"
+        
+        # Save the file
+        File.open(Rails.root.join('public', image_path), 'wb') do |file|
+          file.write(image.read)
+        end
+      else
+        image_path = image
+      end
+    end
 
     # Creamos el frontmatter
     frontmatter = {
@@ -30,7 +47,7 @@ class BlogsController < ApplicationController
       'created_at' => created_at,
       'updated_at' => created_at,
       'slug' => slug,
-      'image' => params[:blog][:image]
+      'image' => image_path
     }
 
     # Creamos el contenido del archivo
@@ -66,7 +83,30 @@ class BlogsController < ApplicationController
 
     title = params[:blog][:title].presence || @blog.title
     content = params[:blog][:content]
-    slug = params[:blog][:slug].presence || @blog.slug
+    slug = title.parameterize
+
+    # Handle image upload
+    image_path = @blog.image
+    if params[:blog][:image].present?
+      image = params[:blog][:image]
+      if image.respond_to?(:original_filename)
+        # Delete old image if exists
+        if @blog.image.present?
+          old_image_path = Rails.root.join('public', @blog.image)
+          File.delete(old_image_path) if File.exist?(old_image_path)
+        end
+
+        filename = "#{slug}-#{Time.current.to_i}#{File.extname(image.original_filename)}"
+        image_path = "/images/blogs/#{filename}"
+        
+        # Save the file
+        File.open(Rails.root.join('public', image_path), 'wb') do |file|
+          file.write(image.read)
+        end
+      else
+        image_path = image
+      end
+    end
 
     # Actualizamos el frontmatter
     frontmatter = {
@@ -74,7 +114,7 @@ class BlogsController < ApplicationController
       'created_at' => @blog.created_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
       'updated_at' => Time.current.strftime('%Y-%m-%dT%H:%M:%SZ'),
       'slug' => slug,
-      'image' => params[:blog][:image]
+      'image' => image_path
     }
 
     # Creamos el contenido del archivo
