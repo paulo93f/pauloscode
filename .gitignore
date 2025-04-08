@@ -35,3 +35,55 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Node.js and npm
+/node_modules
+/package-lock.json
+/yarn.lock
+/.npm
+/.yarn
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Rails specific
+/public/packs
+/public/packs-test
+/public/assets
+.byebug_history
+*.rbc
+capybara-*.html
+.rspec
+/tmp
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/db/*.sqlite3-*
+
+# Coverage directory used by tools like simplecov
+/coverage/
+
+# Ruby specific
+*.gem
+*.rbc
+/.config
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# Ruby version manager files
+.ruby-version
+.rbenv-vars
+.bundle/

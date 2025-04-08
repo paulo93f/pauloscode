@@ -22,8 +22,8 @@
   <%= javascript_importmap_tags %>
 
   <!-- EasyMDE - Editor Markdown WYSIWYG -->
-  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <%= stylesheet_link_tag "vendor/easymde/easymde.min", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "vendor/easymde/easymde.min", "data-turbo-track": "reload" %>
 
   <!-- Fuente Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

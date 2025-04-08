@@ -2,11 +2,11 @@
 ---
 title: Mi Primer Blog
 created_at: '2025-03-23T10:00:00Z'
-updated_at: '2025-03-23T17:14:14Z'
+updated_at: '2025-04-08T17:29:54Z'
 slug: mi-primer-blog-editor
 ---
 
-# Mi Primer Blog con Markdown
+# Mi Primer Blog con Markdown 1
 
 ¡Bienvenido a mi primer blog! Este contenido está escrito en Markdown y se renderiza dinámicamente.
 
