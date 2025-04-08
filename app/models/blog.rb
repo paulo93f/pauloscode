@@ -1,7 +1,3 @@
-require 'redcarpet'
-require 'rouge'
-require 'rouge/plugins/redcarpet'
-
 class Blog
   attr_reader :id, :title, :content, :created_at, :updated_at, :slug, :image
 
