@@ -40,7 +40,11 @@
         <div>
           <%= f.label :content, "Contenido", class: "block text-sm font-medium text-gray-700" %>
           <div class="mt-1">
-            <%= f.text_area :content, id: "markdown-editor", value: @blog.content, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows: 15 %>
+            <div id="editor-loading" class="flex items-center justify-center py-8">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <span class="ml-3 text-sm text-gray-500">Cargando editor...</span>
+            </div>
+            <%= f.text_area :content, id: "markdown-editor", value: @blog.content, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md hidden", rows: 15 %>
           </div>
         </div>
       </div>
@@ -64,22 +68,92 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var easyMDE = new EasyMDE({
-      element: document.getElementById("markdown-editor"),
-      spellChecker: false,
-      autosave: {
-        enabled: true,
-        uniqueId: "edit-blog-<%= @blog.slug %>",
-        delay: 1000
-      },
-      toolbar: [
-        "bold", "italic", "heading", "|",
-        "quote", "unordered-list", "ordered-list", "|",
-        "link", "image", "code", "table", "|",
-        "preview", "side-by-side", "fullscreen", "|",
-        "guide"
-      ]
+  function initializeEasyMDE() {
+    const editorElement = document.getElementById("markdown-editor");
+    const loadingElement = document.getElementById("editor-loading");
+    
+    if (!editorElement) {
+      console.error("Editor element not found");
+      return;
+    }
+
+    try {
+      // Show the editor and hide loading
+      editorElement.classList.remove("hidden");
+      loadingElement.classList.add("hidden");
+
+      var easyMDE = new EasyMDE({
+        element: editorElement,
+        spellChecker: false,
+        autosave: {
+          enabled: true,
+          uniqueId: "edit-blog-<%= @blog.slug %>",
+          delay: 1000
+        },
+        toolbar: [
+          "bold", "italic", "heading", "|",
+          "quote", "unordered-list", "ordered-list", "|",
+          "link", "image", "code", "table", "|",
+          "preview", "side-by-side", "fullscreen", "|",
+          "guide"
+        ]
+      });
+
+      // Handle editor errors
+      easyMDE.codemirror.on("error", function(error) {
+        console.error("Editor error:", error);
+        loadingElement.classList.remove("hidden");
+        loadingElement.innerHTML = `
+          <div class="text-red-600">
+            <svg class="h-5 w-5 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+            Error al cargar el editor. <button onclick="window.location.reload()" class="text-blue-600 hover:text-blue-800">Recargar página</button>
+          </div>
+        `;
+      });
+    } catch (error) {
+      console.error("Error initializing EasyMDE:", error);
+      loadingElement.classList.remove("hidden");
+      loadingElement.innerHTML = `
+        <div class="text-red-600">
+          <svg class="h-5 w-5 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          Error al cargar el editor. <button onclick="window.location.reload()" class="text-blue-600 hover:text-blue-800">Recargar página</button>
+        </div>
+      `;
+    }
+  }
+
+  // Wait for both DOM and EasyMDE to be ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if EasyMDE is loaded
+      if (typeof EasyMDE !== "undefined") {
+        initializeEasyMDE();
+      } else {
+        // If EasyMDE is not loaded yet, wait for it
+        const checkEasyMDE = setInterval(function() {
+          if (typeof EasyMDE !== "undefined") {
+            clearInterval(checkEasyMDE);
+            initializeEasyMDE();
+          }
+        }, 100);
+      }
     });
-  });
+  } else {
+    // DOM is already loaded
+    if (typeof EasyMDE !== "undefined") {
+      initializeEasyMDE();
+    } else {
+      // If EasyMDE is not loaded yet, wait for it
+      const checkEasyMDE = setInterval(function() {
+        if (typeof EasyMDE !== "undefined") {
+          clearInterval(checkEasyMDE);
+          initializeEasyMDE();
+        }
+      }, 100);
+    }
+  }
 </script>
