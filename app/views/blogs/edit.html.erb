@@ -1,41 +1,64 @@
-<div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-900">Editar Blog</h1>
-    <p class="text-gray-500 mt-2">Actualiza tu contenido usando Markdown</p>
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6">
+    <h1 class="text-3xl font-extrabold text-gray-900">Editar Blog</h1>
+    <p class="mt-2 text-sm text-gray-500">Actualiza tu contenido usando Markdown</p>
   </div>
 
   <%= form_with scope: :blog, url: blog_path(@blog.slug), method: :patch, class: "space-y-6", local: true do |f| %>
-    <% if flash[:alert] %>
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        <%= flash[:alert] %>
-      </div>
-    <% end %>
+    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+      <% if flash[:alert] %>
+        <div class="rounded-md bg-red-50 p-4 mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-red-800"><%= flash[:alert] %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
-    <div>
-      <%= f.label :title, "Título", class: "block text-sm font-medium text-gray-700" %>
-      <div class="mt-1">
-        <%= f.text_field :title, value: @blog.title, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true %>
+      <div class="space-y-6">
+        <div>
+          <%= f.label :title, "Título", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_field :title, value: @blog.title, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :slug, "Slug (URL)", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_field :slug, value: @blog.slug, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+            <p class="mt-2 text-sm text-gray-500">El slug es la parte de la URL que identifica este artículo. Debe ser único y usar solo letras minúsculas, números y guiones.</p>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :content, "Contenido", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_area :content, id: "markdown-editor", value: @blog.content, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows: 15 %>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div>
-      <%= f.label :slug, "Slug (URL)", class: "block text-sm font-medium text-gray-700" %>
-      <div class="mt-1">
-        <%= f.text_field :slug, value: @blog.slug, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
-        <p class="text-xs text-gray-500 mt-1">Cambiar el slug modificará la URL del blog</p>
+    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+      <div class="flex justify-end space-x-3">
+        <%= link_to "Cancelar", blog_path(@blog.slug), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <%= button_to blog_path(@blog.slug), method: :delete, 
+            class: "inline-flex items-center px-4 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500",
+            data: { confirm: "¿Estás seguro de que quieres eliminar este artículo? Esta acción no se puede deshacer." } do %>
+          <svg class="-ml-0.5 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Eliminar
+        <% end %>
+        <%= f.submit "Actualizar Blog", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
       </div>
-    </div>
-
-    <div>
-      <%= f.label :content, "Contenido", class: "block text-sm font-medium text-gray-700" %>
-      <div class="mt-1">
-        <%= f.text_area :content, id: "markdown-editor", value: @blog.content, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows: 15 %>
-      </div>
-    </div>
-
-    <div class="flex justify-end">
-      <%= link_to "Cancelar", blog_path(@blog.slug), class: "mr-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-      <%= f.submit "Actualizar Blog", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>
   <% end %>
 </div>

@@ -95,4 +95,26 @@ class BlogsController < ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    @blog = Blog.find(params[:id])
+
+    if @blog.nil?
+      redirect_to blogs_path, alert: "Blog no encontrado"
+      return
+    end
+
+    file_path = Rails.root.join("content/blogs/#{@blog.slug}.md")
+
+    begin
+      if File.exist?(file_path)
+        File.delete(file_path)
+        redirect_to blogs_path, notice: "Blog eliminado exitosamente"
+      else
+        redirect_to blogs_path, alert: "El archivo del blog no fue encontrado"
+      end
+    rescue => e
+      redirect_to blogs_path, alert: "Error al eliminar el blog: #{e.message}"
+    end
+  end
 end

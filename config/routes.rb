@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # get "pages/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :blogs, only: [:index, :show, :new, :create, :edit, :update]
+  resources :blogs, only: [:index, :show, :new, :create, :edit, :update, :destroy]
    # Opcional: hacer que /blog/:id también funcione
   # get 'blog/:id', to: 'blogs#show', as: 'blog'
 
