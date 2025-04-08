@@ -29,24 +29,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
+<header class="bg-white shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-between h-16">
+    <div class="flex">
+      <div class="flex-shrink-0 flex items-center">
+        <%= link_to root_path, class: "text-xl font-bold text-gray-900" do %>
+          Pauloscode
+        <% end %>
+      </div>
+      <nav class="hidden sm:ml-6 sm:flex sm:space-x-8">
+        <%= link_to "Blog", blogs_path, class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+        <%= link_to "Sobre mí", about_path, class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+      </nav>
+    </div>
+  </div>
+</div>
+</header>
+
 <body class="h-full">
   <div class="min-h-full">
-    <header class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex">
-            <div class="flex-shrink-0 flex items-center">
-              <%= link_to root_path, class: "text-xl font-bold text-gray-900" do %>
-                Pauloscode
-              <% end %>
-            </div>
-            <nav class="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <%= link_to "Blog", blogs_path, class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </header>
+   
 
     <main class="py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,4 +88,33 @@
     </main>
   </div>
 </body>
+
+<footer class="bg-gray-800 mt-24">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">Sobre mí</h3>
+        <p class="text-gray-300">Desarrollador web apasionado por Ruby on Rails y el desarrollo de software.</p>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">Enlaces rápidos</h3>
+        <ul class="space-y-2">
+          <li><%= link_to "Blog", blogs_path, class: "text-gray-300 hover:text-white" %></li>
+          <li><%= link_to "Sobre mí", about_path, class: "text-gray-300 hover:text-white" %></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">Contacto</h3>
+        <ul class="space-y-2">
+          <li><a href="https://github.com/pauloscode" class="text-gray-300 hover:text-white">GitHub</a></li>
+          <li><a href="https://twitter.com/pauloscode" class="text-gray-300 hover:text-white">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-8 border-t border-gray-700 pt-8">
+      <p class="text-gray-400 text-center">&copy; <%= Time.current.year %> Pauloscode. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer> 
+
 </html>

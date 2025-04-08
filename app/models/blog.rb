@@ -1,5 +1,5 @@
 class Blog
-  attr_reader :id, :title, :content, :created_at, :updated_at, :slug, :image
+  attr_reader :id, :title, :content, :created_at, :updated_at, :slug, :image, :draft
 
   def initialize(attributes = {})
     @id = attributes[:id]
@@ -9,19 +9,28 @@ class Blog
     @updated_at = attributes[:updated_at] || Time.current
     @slug = attributes[:slug] || @title.to_s.parameterize
     @image = attributes[:image] || nil
+    @draft = attributes[:draft] || false
+  end
+
+  def draft?
+    @draft
   end
 
   def self.all
-    Dir.glob(Rails.root.join('content/blogs/*.md'))
-       .sort_by { |file| File.mtime(file) }
-       .reverse
-       .map.with_index do |file, index|
+    Rails.logger.debug "Loading markdown files from: #{Rails.root.join('content/blogs/*.md')}"
+    files = Dir.glob(Rails.root.join('content/blogs/*.md'))
+    Rails.logger.debug "Found #{files.size} markdown files"
+    
+    files.sort_by { |file| File.mtime(file) }
+        .reverse
+        .map.with_index do |file, index|
+      Rails.logger.debug "Processing file: #{file}"
       file_content = File.read(file)
       frontmatter, content = parse_frontmatter(file_content)
 
       filename = File.basename(file, '.md')
 
-      new(
+      blog = new(
         id: index + 1,
         title: frontmatter['title'] || filename.titleize,
         content: content,
@@ -29,7 +38,10 @@ class Blog
         updated_at: frontmatter['updated_at'] ? Time.parse(frontmatter['updated_at']) : File.mtime(file),
         slug: frontmatter['slug'] || filename,
         image: frontmatter['image'] ? frontmatter['image'] : nil,
+        draft: frontmatter['draft'] || false
       )
+      Rails.logger.debug "Created blog: #{blog.title} (draft: #{blog.draft?})"
+      blog
     end
   end
 
