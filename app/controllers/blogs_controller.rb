@@ -1,4 +1,6 @@
 class BlogsController < ApplicationController
+  allow_unauthenticated_access only: %i[index show destroy]
+
   def index
     @blogs = Blog.all
   end
