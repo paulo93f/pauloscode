@@ -105,4 +105,60 @@ class CustomRenderer < Redcarpet::Render::HTML
     </figure>"
   end
 
+  # Sobreescribimos el método para listas
+  def list(content, list_type)
+    case list_type
+    when :ordered
+      "<ol class='list-decimal pl-6 my-4 space-y-2'>#{content}</ol>"
+    when :unordered
+      "<ul class='list-disc pl-6 my-4 space-y-2'>#{content}</ul>"
+    end
+  end
+
+  def list_item(content, list_type)
+    "<li class='text-gray-700'>#{content}</li>"
+  end
+
+  # Sobreescribimos el método para párrafos
+  def paragraph(text)
+    "<p class='my-4 text-gray-700'>#{text}</p>"
+  end
+
+  # Sobreescribimos el método para encabezados
+  def header(text, header_level)
+    case header_level
+    when 1
+      "<h1 class='text-3xl font-bold text-gray-900 mt-8 mb-4'>#{text}</h1>"
+    when 2
+      "<h2 class='text-2xl font-bold text-gray-900 mt-6 mb-3'>#{text}</h2>"
+    when 3
+      "<h3 class='text-xl font-bold text-gray-900 mt-5 mb-3'>#{text}</h3>"
+    when 4
+      "<h4 class='text-lg font-bold text-gray-900 mt-4 mb-2'>#{text}</h4>"
+    when 5
+      "<h5 class='text-base font-bold text-gray-900 mt-3 mb-2'>#{text}</h5>"
+    when 6
+      "<h6 class='text-sm font-bold text-gray-900 mt-2 mb-2'>#{text}</h6>"
+    end
+  end
+
+  # Sobreescribimos el método para citas
+  def block_quote(quote)
+    "<blockquote class='border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4'>#{quote}</blockquote>"
+  end
+
+  # Sobreescribimos el método para texto en negrita
+  def double_emphasis(text)
+    "<strong class='font-bold'>#{text}</strong>"
+  end
+
+  # Sobreescribimos el método para texto en cursiva
+  def emphasis(text)
+    "<em class='italic'>#{text}</em>"
+  end
+
+  # Sobreescribimos el método para texto tachado
+  def strikethrough(text)
+    "<del class='line-through'>#{text}</del>"
+  end
 end

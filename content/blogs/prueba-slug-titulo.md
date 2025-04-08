@@ -1,5 +1,4 @@
 ---
----
 title: prueba slug titulo
 created_at: '2025-04-08T18:51:17Z'
 updated_at: '2025-04-08T19:53:45Z'
