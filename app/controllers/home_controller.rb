@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  allow_unauthenticated_access
   def index
     all_blogs = Blog.all
     Rails.logger.debug "Total blogs found: #{all_blogs.size}"
